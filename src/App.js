@@ -246,7 +246,7 @@ const Defender = ({
 }) => {
   return (
     <div 
-        className={((isSelected(row, col) && 'bg-light-gray ') || 'bg-white ') 
+        className={((isSelected(row, col) && 'bg-light-blue ') || 'bg-white ') 
 + 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center mt1'}
         style={{
           width: squareSize * .8, 
