@@ -4,21 +4,28 @@ import './App.css';
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;
 
-const startPosition = [
-  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
-  ['', '', '', '', '', 'a', '', '', '', '', ''],
-  ['', '', '', '', '', '', '', '', '', '', ''],
-  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
-  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
-  ['a', 'a', '', 'd', 'd', 'k', 'd', 'd', '', 'a', 'a'],
-  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
-  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
-  ['', '', '', '', '', '', '', '', '', '', ''],
-  ['', '', '', '', '', 'a', '', '', '', '', ''],
-  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
-]
-
 class App extends Component {
+constructor(props) {
+  super(props);
+
+  this.state = {
+    selectedPiece: null,
+    board: [
+      ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+      ['', '', '', '', '', 'a', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', '', ''],
+      ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+      ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+      ['a', 'a', '', 'd', 'd', 'k', 'd', 'd', '', 'a', 'a'],
+      ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+      ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+      ['', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', 'a', '', '', '', '', ''],
+      ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+    ]
+  }
+}
+
   paint = (row, col) => {
     if ((row === 0 && col === 0)
       || (row === 0 && col === 10)
@@ -50,28 +57,55 @@ class App extends Component {
   }
 
   hasPiece = (row, col) => {
-    return startPosition[row][col];
+    return this.state.board[row][col];
+  }
+
+  onSelect = (row, col) => {
+    this.setState({ selectedPiece: { row, col }});
+  }
+
+  onMove = (row, col) => {
+    if (this.state.selectedPiece) {
+      console.log('from', this.state.selectedPiece.row, this.state.selectedPiece.col);
+      console.log('to', row, col);
+      // this.setState({
+      //   board: [
+          
+      //   ]
+      // })
+
+      this.setState({ selectedPiece: null });
+    }
   }
 
   render() {
     return (
       <div>
         <div className='tc'>
-          <p className='f2'>Hnefatafl</p>
-          <p className='f4'>Viking Chess</p>
+          <p className='f2 mb0'>Hnefatafl</p>
+          <p className='f4 mt0'>Viking Chess</p>
         </div>
         <Board 
           paint={this.paint} 
           hasPiece={this.hasPiece}
           numSquares={NUM_SQUARES} 
           squareSize={SQUARE_SIZE}
+          onSelect={this.onSelect}
+          onMove={this.onMove}
         />
       </div>
     );
   }
 }
 
-const Board = ({ numSquares, squareSize, paint, hasPiece }) => {
+const Board = ({ 
+  numSquares, 
+  squareSize, 
+  paint, 
+  hasPiece,
+  onSelect,
+  onMove 
+}) => {
   const rows = [];
 
   for (let i=0; i < numSquares; i++) {
@@ -83,6 +117,8 @@ const Board = ({ numSquares, squareSize, paint, hasPiece }) => {
         row={i}
         paint={paint}
         hasPiece={hasPiece}
+        onSelect={onSelect}
+        onMove={onMove}
       />)
   }
   return (
@@ -92,9 +128,16 @@ const Board = ({ numSquares, squareSize, paint, hasPiece }) => {
     >{rows}</div>);
 }
 
-const Row = ({ numSquares, squareSize, row, paint, hasPiece }) => {
+const Row = ({ 
+  numSquares, 
+  squareSize, 
+  row, 
+  paint, 
+  hasPiece,
+  onSelect,
+  onMove 
+}) => {
   const squares = [];
-  
 
   for (let i = 0; i < numSquares; i++) { 
     squares.push(
@@ -106,6 +149,8 @@ const Row = ({ numSquares, squareSize, row, paint, hasPiece }) => {
         paint={paint}
         key={i}
         hasPiece={hasPiece}
+        onSelect={onSelect}
+        onMove={onMove}
       />
     );
   }
@@ -121,7 +166,9 @@ const Square = ({
   row, 
   col, 
   paint,
-  hasPiece 
+  hasPiece,
+  onSelect,
+  onMove
 } ) => {
   const edgeSize = 1 / numSquares * 100 + '%';
   const color = paint(row, col);
@@ -129,56 +176,103 @@ const Square = ({
     <div 
         className={'fl ba ' + color}
         style={{ width: edgeSize, height: squareSize }}
+        onClick={() => onMove(row, col)}
       >
       { !hasPiece(row, col)
         ? null
-        : ( hasPiece(row, col) !== 'a' 
-            ? <Defender 
-              squareSize={squareSize} 
-              row={row}
-              col={col}
-            > { hasPiece(row, col) === 'k'
-                ? '+'
-                : null
-              } 
-            </Defender>
-            : <Attacker
+        : ( hasPiece(row, col) === 'a' 
+            ? <Attacker
               squareSize={squareSize}
               row={row}
               col={col}
+              onSelect={onSelect}
               />
+            : <Defender 
+              squareSize={squareSize} 
+              row={row}
+              col={col}
+              isKing={hasPiece(row, col) === 'k'}
+              onSelect={onSelect}
+              /> 
           )
-      }
-      
+      }    
     </div>
   );
 }
 
-const Attacker = ({ squareSize, row, col }) => {
+const Attacker = ({ 
+  squareSize, 
+  row, 
+  col,
+  onSelect 
+}) => {
   return (
     <div 
-        className='bw2 pointer tc f3 pt1 br-100 ba bg-black b--white center v-mid mt1'
+        className='shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba bg-black b--white center mt1'
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
         }}
+        onClick={() => onSelect(row, col)}
       >
       </div>
   );
 }
 
-const Defender = ({ squareSize, row, col, children }) => {
+const Defender = ({ 
+  squareSize, 
+  row, 
+  col, 
+  isKing,
+  onSelect 
+}) => {
   return (
     <div 
-        className='bw2 pointer tc f3 b br-100 ba bg-white center v-mid mt1'
+        className='shadow-5 grow bw2 pointer tc f3 b br-100 ba bg-white center mt1'
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
         }}
+        onClick={() => onSelect(row, col)}
       >
-        {children}
+        { isKing
+        ? <Cross squareSize={squareSize} />
+        : null
+      }
       </div>
   );
 };
+
+const Cross = ({ squareSize }) => {
+  return (
+    <div>
+      <div 
+        className='bg-black'
+        style={{
+          width: squareSize * .1, 
+          height: squareSize * .7,
+          marginLeft: '44%'
+        }}
+      ></div>
+      <div 
+        className='bg-black mb5'
+        style={{
+          width: squareSize * .7, 
+          height: squareSize * .1,
+          marginTop: '-70%',
+        }}
+      ></div>
+      <div
+        className='br-100 ba bg-black'
+        style={{
+          width: squareSize * .35,
+          height: squareSize * .35,
+          marginTop: '-230%',
+          marginLeft: '23%'
+        }}
+      ></div>
+    </div>
+  );
+}
 
 export default App;
