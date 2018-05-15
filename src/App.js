@@ -53,7 +53,7 @@ constructor(props) {
       ) {
       return 'bg-blue';
     }
-    return 'bg-white';
+    return 'bg-washed-white';
   }
 
   hasPiece = (row, col) => {
@@ -77,6 +77,14 @@ constructor(props) {
     }
   }
 
+  isSelected = (row, col) => {
+    if (this.state.selectedPiece){
+      return this.state.selectedPiece.row === row 
+&& this.state.selectedPiece.col === col;
+    }
+    return false;
+  }
+
   render() {
     return (
       <div>
@@ -91,6 +99,7 @@ constructor(props) {
           squareSize={SQUARE_SIZE}
           onSelect={this.onSelect}
           onMove={this.onMove}
+          isSelected={this.isSelected}
         />
       </div>
     );
@@ -103,7 +112,8 @@ const Board = ({
   paint, 
   hasPiece,
   onSelect,
-  onMove 
+  onMove,
+  isSelected 
 }) => {
   const rows = [];
 
@@ -118,6 +128,7 @@ const Board = ({
         hasPiece={hasPiece}
         onSelect={onSelect}
         onMove={onMove}
+        isSelected={isSelected}
       />)
   }
   return (
@@ -134,7 +145,8 @@ const Row = ({
   paint, 
   hasPiece,
   onSelect,
-  onMove 
+  onMove,
+  isSelected 
 }) => {
   const squares = [];
 
@@ -150,6 +162,7 @@ const Row = ({
         hasPiece={hasPiece}
         onSelect={onSelect}
         onMove={onMove}
+        isSelected={isSelected}
       />
     );
   }
@@ -167,7 +180,8 @@ const Square = ({
   paint,
   hasPiece,
   onSelect,
-  onMove
+  onMove,
+  isSelected
 } ) => {
   const edgeSize = 1 / numSquares * 100 + '%';
   const color = paint(row, col);
@@ -185,6 +199,7 @@ const Square = ({
               row={row}
               col={col}
               onSelect={onSelect}
+              isSelected={isSelected}
               />
             : <Defender 
               squareSize={squareSize} 
@@ -192,6 +207,7 @@ const Square = ({
               col={col}
               isKing={hasPiece(row, col) === 'k'}
               onSelect={onSelect}
+              isSelected={isSelected}
               /> 
           )
       }    
@@ -203,11 +219,13 @@ const Attacker = ({
   squareSize, 
   row, 
   col,
-  onSelect 
+  onSelect,
+  isSelected 
 }) => {
   return (
     <div 
-        className='shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba bg-black b--white center mt1'
+        className={((isSelected(row, col) && 'bg-dark-gray ') || 'bg-black ') 
++ 'shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba b--white center mt1'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -223,11 +241,13 @@ const Defender = ({
   row, 
   col, 
   isKing,
-  onSelect 
+  onSelect,
+  isSelected
 }) => {
   return (
     <div 
-        className='shadow-5 grow bw2 pointer tc f3 b br-100 ba bg-white center mt1'
+        className={((isSelected(row, col) && 'bg-light-gray ') || 'bg-white ') 
++ 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center mt1'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
