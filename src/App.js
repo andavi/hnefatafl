@@ -46,7 +46,11 @@ class App extends Component {
       ) {
       return 'bg-blue';
     }
-    return '';
+    return 'bg-white';
+  }
+
+  hasPiece = (row, col) => {
+    return startPosition[row][col];
   }
 
   render() {
@@ -58,15 +62,16 @@ class App extends Component {
         </div>
         <Board 
           paint={this.paint} 
+          hasPiece={this.hasPiece}
           numSquares={NUM_SQUARES} 
-          squareSize={SQUARE_SIZE} 
+          squareSize={SQUARE_SIZE}
         />
       </div>
     );
   }
 }
 
-const Board = ({ numSquares, squareSize, paint }) => {
+const Board = ({ numSquares, squareSize, paint, hasPiece }) => {
   const rows = [];
 
   for (let i=0; i < numSquares; i++) {
@@ -77,6 +82,7 @@ const Board = ({ numSquares, squareSize, paint }) => {
         key={i}
         row={i}
         paint={paint}
+        hasPiece={hasPiece}
       />)
   }
   return (
@@ -86,7 +92,7 @@ const Board = ({ numSquares, squareSize, paint }) => {
     >{rows}</div>);
 }
 
-const Row = ({ numSquares, squareSize, row, paint }) => {
+const Row = ({ numSquares, squareSize, row, paint, hasPiece }) => {
   const squares = [];
   
 
@@ -98,6 +104,8 @@ const Row = ({ numSquares, squareSize, row, paint }) => {
         row={row}
         col={i}
         paint={paint}
+        key={i}
+        hasPiece={hasPiece}
       />
     );
   }
@@ -107,29 +115,70 @@ const Row = ({ numSquares, squareSize, row, paint }) => {
     </div>);
 }
 
-const Square = ({ numSquares, squareSize, row, col, paint } ) => {
+const Square = ({ 
+  numSquares, 
+  squareSize, 
+  row, 
+  col, 
+  paint,
+  hasPiece 
+} ) => {
   const edgeSize = 1 / numSquares * 100 + '%';
   const color = paint(row, col);
   return (
     <div 
         className={'fl ba ' + color}
         style={{ width: edgeSize, height: squareSize }}
-        key={col}
       >
-        
+      { !hasPiece(row, col)
+        ? null
+        : ( hasPiece(row, col) !== 'a' 
+            ? <Defender 
+              squareSize={squareSize} 
+              row={row}
+              col={col}
+            > { hasPiece(row, col) === 'k'
+                ? '+'
+                : null
+              } 
+            </Defender>
+            : <Attacker
+              squareSize={squareSize}
+              row={row}
+              col={col}
+              />
+          )
+      }
+      
+    </div>
+  );
+}
+
+const Attacker = ({ squareSize, row, col }) => {
+  return (
+    <div 
+        className='bw1 pointer tc f3 pt1 br-100 ba bg-black b--white center v-mid mt1'
+        style={{
+          width: squareSize * .8, 
+          height: squareSize * .8,
+        }}
+      >
       </div>
   );
 }
 
-const King = () => {
-  <div 
-    className='tc pointer br-100 ba pt1 f3' 
-    style={{ 
-      width: SQUARE_SIZE * .8, 
-      height: SQUARE_SIZE * .8,
-    }}>
-    {'+'}
-  </div>
-}
+const Defender = ({ squareSize, row, col, children }) => {
+  return (
+    <div 
+        className='bw1 pointer tc f3 pt1 br-100 ba bg-white center v-mid mt1'
+        style={{
+          width: squareSize * .8, 
+          height: squareSize * .8,
+        }}
+      >
+        {children}
+      </div>
+  );
+};
 
 export default App;
