@@ -157,7 +157,7 @@ const Square = ({
 const Attacker = ({ squareSize, row, col }) => {
   return (
     <div 
-        className='bw1 pointer tc f3 pt1 br-100 ba bg-black b--white center v-mid mt1'
+        className='bw2 pointer tc f3 pt1 br-100 ba bg-black b--white center v-mid mt1'
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -170,7 +170,7 @@ const Attacker = ({ squareSize, row, col }) => {
 const Defender = ({ squareSize, row, col, children }) => {
   return (
     <div 
-        className='bw1 pointer tc f3 pt1 br-100 ba bg-white center v-mid mt1'
+        className='bw2 pointer tc f3 b br-100 ba bg-white center v-mid mt1'
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
