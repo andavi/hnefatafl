@@ -56,15 +56,11 @@ class App extends Component {
           <p className='f2'>Hnefatafl</p>
           <p className='f4'>Viking Chess</p>
         </div>
-        <Board paint={this.paint} numSquares={NUM_SQUARES} squareSize={SQUARE_SIZE}/>
-        <div 
-          className='tc pointer br-100 ba pt1 f3' 
-          style={{ 
-            width: SQUARE_SIZE * .8, 
-            height: SQUARE_SIZE * .8,
-          }}>
-          {'+'}
-        </div>
+        <Board 
+          paint={this.paint} 
+          numSquares={NUM_SQUARES} 
+          squareSize={SQUARE_SIZE} 
+        />
       </div>
     );
   }
@@ -92,24 +88,48 @@ const Board = ({ numSquares, squareSize, paint }) => {
 
 const Row = ({ numSquares, squareSize, row, paint }) => {
   const squares = [];
-  const edgeSize = 1 / numSquares * 100 + '%';
+  
 
   for (let i = 0; i < numSquares; i++) { 
-    const color = paint(row, i);
-
     squares.push(
-      <div 
-        className={'fl ba ' + color}
-        style={{ width: edgeSize, height: squareSize }}
-        key={i}
-      >
-        
-      </div>);
+      <Square 
+        numSquares={numSquares}
+        squareSize={squareSize}
+        row={row}
+        col={i}
+        paint={paint}
+      />
+    );
   }
   return(
     <div style={{ width: squareSize * numSquares }}>
       {squares}
     </div>);
+}
+
+const Square = ({ numSquares, squareSize, row, col, paint } ) => {
+  const edgeSize = 1 / numSquares * 100 + '%';
+  const color = paint(row, col);
+  return (
+    <div 
+        className={'fl ba ' + color}
+        style={{ width: edgeSize, height: squareSize }}
+        key={col}
+      >
+        
+      </div>
+  );
+}
+
+const King = () => {
+  <div 
+    className='tc pointer br-100 ba pt1 f3' 
+    style={{ 
+      width: SQUARE_SIZE * .8, 
+      height: SQUARE_SIZE * .8,
+    }}>
+    {'+'}
+  </div>
 }
 
 export default App;
