@@ -9,6 +9,7 @@ constructor(props) {
   super(props);
 
   this.state = {
+    attackerTurn: true,
     selectedPiece: null,
     board: [
       ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
@@ -61,12 +62,23 @@ constructor(props) {
   }
 
   onSelect = (row, col) => {
-    this.setState({ selectedPiece: { row, col }});
+    if (this.state.attackerTurn && this.state.board[row][col] === 'a') {
+      this.setState({ 
+        selectedPiece: { row, col },
+        attackerTurn: false
+      });
+    } else if (!this.state.attackerTurn && this.state.board[row][col]
+&& this.state.board[row][col] !== 'a') {
+      this.setState({ 
+        selectedPiece: { row, col },
+        attackerTurn: true
+      });
+    } 
   }
 
   onMove = (row, col) => {
-    if (this.state.selectedPiece) {
-      const from = this.state.selectedPiece;
+    const from = this.state.selectedPiece;
+    if (from && this.isLegal(from, { row, col })) {
       const newBoard = this.state.board.map(row => [...row]);  // deep copy
       newBoard[from.row][from.col] = '';
       newBoard[row][col] = this.state.board[from.row][from.col];
@@ -75,6 +87,13 @@ constructor(props) {
         selectedPiece: null
       });
     }
+  }
+
+  isLegal = (from, to) => {
+    if (!this.state.board[to.row][to.col]){
+      return true;
+    }
+    return false;
   }
 
   isSelected = (row, col) => {
