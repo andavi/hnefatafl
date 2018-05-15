@@ -65,13 +65,11 @@ constructor(props) {
     if (this.state.attackerTurn && this.state.board[row][col] === 'a') {
       this.setState({ 
         selectedPiece: { row, col },
-        attackerTurn: false
       });
     } else if (!this.state.attackerTurn && this.state.board[row][col]
 && this.state.board[row][col] !== 'a') {
       this.setState({ 
         selectedPiece: { row, col },
-        attackerTurn: true
       });
     } 
   }
@@ -84,7 +82,8 @@ constructor(props) {
       newBoard[row][col] = this.state.board[from.row][from.col];
       this.setState({
         board: newBoard,
-        selectedPiece: null
+        selectedPiece: null,
+        attackerTurn: !this.state.attackerTurn
       });
     }
   }
