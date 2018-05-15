@@ -66,15 +66,14 @@ constructor(props) {
 
   onMove = (row, col) => {
     if (this.state.selectedPiece) {
-      console.log('from', this.state.selectedPiece.row, this.state.selectedPiece.col);
-      console.log('to', row, col);
-      // this.setState({
-      //   board: [
-          
-      //   ]
-      // })
-
-      this.setState({ selectedPiece: null });
+      const from = this.state.selectedPiece;
+      const newBoard = this.state.board.map(row => [...row]);  // deep copy
+      newBoard[from.row][from.col] = '';
+      newBoard[row][col] = this.state.board[from.row][from.col];
+      this.setState({
+        board: newBoard,
+        selectedPiece: null
+      });
     }
   }
 
