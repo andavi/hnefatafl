@@ -4,6 +4,20 @@ import './App.css';
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;
 
+const startPosition = [
+  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+  ['', '', '', '', '', 'a', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', '', '', ''],
+  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+  ['a', 'a', '', 'd', 'd', 'k', 'd', 'd', '', 'a', 'a'],
+  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+  ['', '', '', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', 'a', '', '', '', '', ''],
+  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+]
+
 class App extends Component {
   paint = (row, col) => {
     if ((row === 0 && col === 0)
@@ -43,6 +57,14 @@ class App extends Component {
           <p className='f4'>Viking Chess</p>
         </div>
         <Board paint={this.paint} numSquares={NUM_SQUARES} squareSize={SQUARE_SIZE}/>
+        <div 
+          className='tc pointer br-100 ba pt1 f3' 
+          style={{ 
+            width: SQUARE_SIZE * .8, 
+            height: SQUARE_SIZE * .8,
+          }}>
+          {'+'}
+        </div>
       </div>
     );
   }
@@ -80,7 +102,9 @@ const Row = ({ numSquares, squareSize, row, paint }) => {
         className={'fl ba ' + color}
         style={{ width: edgeSize, height: squareSize }}
         key={i}
-      ></div>);
+      >
+        
+      </div>);
   }
   return(
     <div style={{ width: squareSize * numSquares }}>
