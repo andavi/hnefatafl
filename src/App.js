@@ -27,7 +27,7 @@ constructor(props) {
     selectedPiece: null,
     board: initialSetup,
     kingPosition: {row: 5, col: 5},
-    winner: 'null'
+    winner: null
   }
 }
 
@@ -88,20 +88,55 @@ constructor(props) {
   /////////////////////////////////
 
   onMove = (row, col) => {
-    const origin = this.state.selectedPiece;
-    if (origin && this.isLegal(origin, { row, col })) {
-      const newBoard = this.state.board.map(row => [...row]);  // deep copy
-      newBoard[origin.row][origin.col] = '';
-      newBoard[row][col] = this.state.board[origin.row][origin.col];
+
+    // check if piece is selected and attempted move is legal
+    const selected = this.state.selectedPiece;
+    if (selected && this.isLegal(selected, { row, col })) {
+
+
+
+      // deep copy board & move selected piece on newBoard
+      const newBoard = this.state.board.map(row => [...row]);  
+      newBoard[selected.row][selected.col] = '';
+      newBoard[row][col] = this.state.board[selected.row][selected.col];
+
+      // check for captures and update newBoard
       const captures = this.getCaptures({ row, col });
       captures.forEach(square => newBoard[square.row][square.col] = '');
+
+      // check for win condition & end game if true
+      const winner = this.checkWinCondition(
+        (this.isKing(selected) ? { row, col } : this.state.kingPosition), newBoard);
+
       this.setState({
         board: newBoard,
         selectedPiece: null,
-        attackerTurn: !this.state.attackerTurn
+        attackerTurn: !this.state.attackerTurn,
+        kingPosition: this.isKing(selected) 
+          ? { row, col } 
+          : this.state.kingPosition,
+        winner: winner
       });
     }
   }
+
+  isKing = (square) => this.state.board[square.row][square.col] === 'k';
+
+  checkWinCondition = (king, board) => {
+    // king escaped to corner
+    if (this.isRefuge(king) && !(king.row === 5 && king.col === 5)) {
+      return 'White';
+      // king not on edge & surrounded on four sides by attackers
+    } else if (!(king.row === 0 || king.row === 10
+        || king.col === 0 || king.col === 10) 
+        && board[king.row + 1][king.col] === 'a'
+          && board[king.row - 1][king.col] === 'a'
+          && board[king.row][king.col + 1] === 'a'
+          && board[king.row][king.col - 1] === 'a') {
+      return 'Black';
+    }
+    return null;
+  } 
 
   isDefender = (square) => this.state.board[square.row][square.col] === 'd'
     || this.state.board[square.row][square.col] === 'k';
