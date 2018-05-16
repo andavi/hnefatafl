@@ -4,6 +4,20 @@ import './App.css';
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;
 
+const initialSetup = [
+  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+  ['', '', '', '', '', 'a', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', '', '', ''],
+  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+  ['a', 'a', '', 'd', 'd', 'k', 'd', 'd', '', 'a', 'a'],
+  ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
+  ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
+  ['', '', '', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', 'a', '', '', '', '', ''],
+  ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
+];
+
 class App extends Component {
 constructor(props) {
   super(props);
@@ -11,19 +25,7 @@ constructor(props) {
   this.state = {
     attackerTurn: true,
     selectedPiece: null,
-    board: [
-      ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
-      ['', '', '', '', '', 'a', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', '', '', ''],
-      ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
-      ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
-      ['a', 'a', '', 'd', 'd', 'k', 'd', 'd', '', 'a', 'a'],
-      ['a', '', '', '', 'd', 'd', 'd', '', '', '', 'a'],
-      ['a', '', '', '', '', 'd', '', '', '', '', 'a'],
-      ['', '', '', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', 'a', '', '', '', '', ''],
-      ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
-    ]
+    board: initialSetup
   }
 }
 
@@ -74,16 +76,16 @@ constructor(props) {
     } 
   }
 
-  getCaptures(square) {
-    const captures = [];
-  }
+  /////////////////////////////////
+  // GAME LOGIC
+  /////////////////////////////////
 
   onMove = (row, col) => {
-    const from = this.state.selectedPiece;
-    if (from && this.isLegal(from, { row, col })) {
+    const origin = this.state.selectedPiece;
+    if (origin && this.isLegal(origin, { row, col })) {
       const newBoard = this.state.board.map(row => [...row]);  // deep copy
-      newBoard[from.row][from.col] = '';
-      newBoard[row][col] = this.state.board[from.row][from.col];
+      newBoard[origin.row][origin.col] = '';
+      newBoard[row][col] = this.state.board[origin.row][origin.col];
       const captures = this.getCaptures({ row, col });
       this.setState({
         board: newBoard,
@@ -93,42 +95,58 @@ constructor(props) {
     }
   }
 
+  isAttacker = (square) => this.state.board[square.row][square.col] === 'a'
+    || this.state.board[square.row][square.col] === 'k';
+
+  isDefender = (square) => this.state.board[square.row][square.col] === 'd';
+
+  isEmptyRefuge = (square) => this.isRefuge(square) && this.isNotOccupied(square);
+
+  isCapture = (first, second) => {
+
+  }
+
+  getCaptures = (square) => {
+    const captures = [];
+    return captures;
+  }
+
   isNotOccupied = (square) => !this.state.board[square.row][square.col];
 
-  isOrthogonal = (from, to) => from.row === to.row || from.col === to.col;
+  isOrthogonal = (origin, dest) => origin.row === dest.row || origin.col === dest.col;
 
-  isNotBlocked = (from, to) => {
+  isNotBlocked = (origin, dest) => {
     // check along column
-    if (from.col === to.col) {
-      // rows ascending: top to bottom
-      if (from.row < to.row) {
-        for (let i = from.row + 1; i < to.row; i++) {
-          if (this.state.board[i][from.col]) {
+    if (origin.col === dest.col) {
+      // rows ascending: destp dest botdestm
+      if (origin.row < dest.row) {
+        for (let i = origin.row + 1; i < dest.row; i++) {
+          if (this.state.board[i][origin.col]) {
             return false;
           }
         }
-        // rows descending: bottom to top
+        // rows descending: botdestm dest destp
       } else {
-        for (let i = from.row - 1; i > to.row; i--) {
-          if (this.state.board[i][from.col]) {
-            console.log(this.state.board[i][from.col], i, from.col);
+        for (let i = origin.row - 1; i > dest.row; i--) {
+          if (this.state.board[i][origin.col]) {
+            console.log(this.state.board[i][origin.col], i, origin.col);
             return false;
           }
         }
       }
       // check along row
     } else {
-      // columns ascending: left to right
-      if (from.col < to.col) {
-        for (let j = from.col + 1; j < to.col; j++) {
-          if (this.state.board[from.row][j]) {
+      // columns ascending: left dest right
+      if (origin.col < dest.col) {
+        for (let j = origin.col + 1; j < dest.col; j++) {
+          if (this.state.board[origin.row][j]) {
             return false;
           }
         }
-        // columns descending: right to left
+        // columns descending: right dest left
       } else {
-        for (let j = from.col - 1; j > to.col; j--) {
-          if (this.state.board[from.row][j]) {
+        for (let j = origin.col - 1; j > dest.col; j--) {
+          if (this.state.board[origin.row][j]) {
             return false;
           }
         }
@@ -144,13 +162,17 @@ constructor(props) {
       || (square.row === 10 && square.col ===10)
       || (square.row === 5 && square.col ===5));
 
-  ifRefugeIsKing = (from, to) =>
-    this.isRefuge(to) ? this.state.board[from.row][from.col] === 'k' : true;
+  ifRefugeIsKing = (origin, dest) =>
+    this.isRefuge(dest) ? this.state.board[origin.row][origin.col] === 'k' : true;
 
-  isLegal = (from, to) => {
-    return this.isNotOccupied(to) && this.isOrthogonal(from, to) 
-      && this.isNotBlocked(from, to) && this.ifRefugeIsKing(from, to);
+  isLegal = (origin, dest) => {
+    return this.isNotOccupied(dest) && this.isOrthogonal(origin, dest) 
+      && this.isNotBlocked(origin, dest) && this.ifRefugeIsKing(origin, dest);
   }
+
+  /////////////////////////////////
+  // RENDER
+  /////////////////////////////////
 
   isSelected = (row, col) => {
     if (this.state.selectedPiece){
@@ -163,7 +185,7 @@ constructor(props) {
   render() {
     return (
       <div>
-        <div className='tc'>
+        <div className='header tc'>
           <p className='f2 mb0'>Hnefatafl</p>
           <p className='f4 mt0'>Viking Chess</p>
         </div>
@@ -176,6 +198,12 @@ constructor(props) {
           onMove={this.onMove}
           isSelected={this.isSelected}
         />
+        <div className='tc footer'>
+          {this.state.attackerTurn 
+            ? "Black's Turn" 
+            : "White's Turn"
+          }
+        </div>
       </div>
     );
   }
