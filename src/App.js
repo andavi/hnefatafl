@@ -25,7 +25,9 @@ constructor(props) {
   this.state = {
     attackerTurn: true,
     selectedPiece: null,
-    board: initialSetup
+    board: initialSetup,
+    kingPosition: {row: 5, col: 5},
+    winner: 'null'
   }
 }
 
@@ -64,16 +66,21 @@ constructor(props) {
   }
 
   onSelect = (row, col) => {
-    if (this.state.attackerTurn && this.state.board[row][col] === 'a') {
-      this.setState({ 
-        selectedPiece: { row, col },
-      });
-    } else if (!this.state.attackerTurn && this.state.board[row][col]
-        && this.state.board[row][col] !== 'a') {
-      this.setState({ 
-        selectedPiece: { row, col },
-      });
-    } 
+    // check game over condition
+    if (!this.state.winner) {
+      // if attacker's turn and attacker chosen
+      if (this.state.attackerTurn && this.isAttacker({ row, col })) {
+        this.setState({ 
+          selectedPiece: { row, col },
+        });
+        // if defender's turn and defender chosen
+      } else if (!this.state.attackerTurn && this.isDefender({ row, col })) {
+        this.setState({ 
+          selectedPiece: { row, col },
+        });
+      } 
+    }
+    
   }
 
   /////////////////////////////////
@@ -113,11 +120,13 @@ constructor(props) {
   }
 
   isCapture = (first, second, third) => {
-    // console.log(first, second, third);
+    if (this.state.board[second.row][second.col] === 'k') {
+      return false;
+    }
     const firstColor = this.getColor(first);
     const secondColor = this.getColor(second);
     const thirdColor = this.getColor(third);
-    // console.log(firstColor, secondColor, thirdColor);
+    // captures occur if: wbw, wbr, bwb, or bwr
     return ((firstColor === 'white' && secondColor === 'black' && thirdColor === 'white')
       || (firstColor === 'white' && secondColor === 'black' && thirdColor === 'red')
       || (firstColor === 'black' && secondColor === 'white' && thirdColor === 'black')
@@ -245,10 +254,6 @@ constructor(props) {
       && this.isNotBlocked(origin, dest) && this.ifRefugeIsKing(origin, dest);
   }
 
-  /////////////////////////////////
-  // RENDER
-  /////////////////////////////////
-
   isSelected = (row, col) => {
     if (this.state.selectedPiece){
       return this.state.selectedPiece.row === row 
@@ -256,6 +261,10 @@ constructor(props) {
     }
     return false;
   }
+
+  /////////////////////////////////
+  // RENDER
+  /////////////////////////////////
 
   render() {
     return (
@@ -273,12 +282,18 @@ constructor(props) {
           onMove={this.onMove}
           isSelected={this.isSelected}
         />
-        <div className='tc footer'>
-          {this.state.attackerTurn 
-            ? "Black's Turn" 
-            : "White's Turn"
-          }
-        </div>
+        { this.state.winner
+          ? <div className='tc f3'>
+            {this.state.winner + ' Wins!'}
+          </div> 
+          :<div className='tc footer'>
+            {this.state.attackerTurn 
+              ? "Black's Turn" 
+              : "White's Turn"
+            }
+          </div>
+        }
+        
       </div>
     );
   }
