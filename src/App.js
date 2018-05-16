@@ -46,7 +46,7 @@ constructor(props) {
       || (row === 5 && col === 1)
       || (row === 5 && col === 9)
       ) {
-      return 'bg-near-black';
+      return 'bg-near-black b--dark-gray';
     } else if ((row === 3 && col === 5)
       || (row === 4 && (col > 3 && col < 7))
       || (row === 5 && (col > 2 && col < 5))
@@ -87,6 +87,7 @@ constructor(props) {
       newBoard[origin.row][origin.col] = '';
       newBoard[row][col] = this.state.board[origin.row][origin.col];
       const captures = this.getCaptures({ row, col });
+      captures.forEach(square => newBoard[square.row][square.col] = '');
       this.setState({
         board: newBoard,
         selectedPiece: null,
@@ -95,23 +96,97 @@ constructor(props) {
     }
   }
 
-  isAttacker = (square) => this.state.board[square.row][square.col] === 'a'
+  isDefender = (square) => this.state.board[square.row][square.col] === 'd'
     || this.state.board[square.row][square.col] === 'k';
 
-  isDefender = (square) => this.state.board[square.row][square.col] === 'd';
+  isAttacker = (square) => this.state.board[square.row][square.col] === 'a';
 
-  isEmptyRefuge = (square) => this.isRefuge(square) && this.isNotOccupied(square);
+  getColor = (square) => {
+    if (this.isAttacker(square)) {
+      return 'black';
+    } else if (this.isDefender(square)) {
+      return 'white';
+    } else if (this.isRefuge(square)) {
+      return 'red';
+    } 
+    return 'empty';
+  }
 
-  isCapture = (first, second) => {
-
+  isCapture = (first, second, third) => {
+    // console.log(first, second, third);
+    const firstColor = this.getColor(first);
+    const secondColor = this.getColor(second);
+    const thirdColor = this.getColor(third);
+    // console.log(firstColor, secondColor, thirdColor);
+    return ((firstColor === 'white' && secondColor === 'black' && thirdColor === 'white')
+      || (firstColor === 'white' && secondColor === 'black' && thirdColor === 'red')
+      || (firstColor === 'black' && secondColor === 'white' && thirdColor === 'black')
+      || (firstColor === 'black' && secondColor === 'white' && thirdColor === 'red'))
   }
 
   getCaptures = (square) => {
+    const selected = this.state.selectedPiece;
     const captures = [];
+    // north
+    if (square.row - 2 >= 0) {
+      const north = { 
+          row: square.row - 1, 
+          col: square.col 
+        }
+        const northWing = { 
+          row: square.row - 2,
+          col: square.col
+        }
+      if (this.isCapture(selected, north, northWing)){
+        captures.push(north)
+      }
+    }
+    // south
+    if (square.row + 2 <= 10) {
+      const south = { 
+          row: square.row + 1, 
+          col: square.col 
+        }
+        const southWing = { 
+          row: square.row + 2,
+          col: square.col
+        }
+      if (this.isCapture(selected, south, southWing)){
+        captures.push(south)
+      }
+    }
+    // west
+    if (square.row + 2 >= 0) {
+      const west = { 
+          row: square.row , 
+          col: square.col - 1
+        }
+        const westWing = { 
+          row: square.row,
+          col: square.col - 2
+        }
+      if (this.isCapture(selected, west, westWing)){
+        captures.push(west)
+      }
+    }
+    // east
+    if (square.col + 2 <= 10) {
+      const east = { 
+          row: square.row, 
+          col: square.col + 1 
+        }
+        const eastWing = { 
+          row: square.row,
+          col: square.col + 2
+        }
+      if (this.isCapture(selected, east, eastWing)){
+        captures.push(east)
+      }
+    }
     return captures;
   }
 
-  isNotOccupied = (square) => !this.state.board[square.row][square.col];
+  isEmpty = (square) => !this.state.board[square.row][square.col];
 
   isOrthogonal = (origin, dest) => origin.row === dest.row || origin.col === dest.col;
 
@@ -166,7 +241,7 @@ constructor(props) {
     this.isRefuge(dest) ? this.state.board[origin.row][origin.col] === 'k' : true;
 
   isLegal = (origin, dest) => {
-    return this.isNotOccupied(dest) && this.isOrthogonal(origin, dest) 
+    return this.isEmpty(dest) && this.isOrthogonal(origin, dest) 
       && this.isNotBlocked(origin, dest) && this.ifRefugeIsKing(origin, dest);
   }
 
