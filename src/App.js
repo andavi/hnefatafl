@@ -88,17 +88,55 @@ constructor(props) {
     }
   }
 
-  isLegal = (from, to) => {
-    if (!this.state.board[to.row][to.col]){
-      return true;
+  isNotOccupied = (square) => !this.state.board[square.row][square.col];
+
+  isOrthogonal = (from, to) => from.row === to.row || from.col === to.col;
+
+  isNotBlocked = (from, to) => {
+    if (from.col === to.col) {
+      if (from.row < to.row) {
+        for (let i = from.row + 1; i < to.row; i++) {
+          if (this.state.board[i][from.col]) {
+            return false;
+          }
+        }
+      } else {
+        for (let i = from.row - 1; i > to.row; i--) {
+          if (this.state.board[i][from.col]) {
+            console.log(this.state.board[i][from.col], i, from.col);
+            return false;
+          }
+        }
+      }
+    } else {
+      if (from.col < to.col) {
+        for (let j = from.col + 1; j < to.col; j++) {
+          if (this.state.board[from.row][j]) {
+            return false;
+          }
+        }
+      } else {
+        for (let j = from.col - 1; j > to.col; j--) {
+          if (this.state.board[from.row][j]) {
+            return false;
+          }
+        }
+      }
     }
-    return false;
+    return true;
+  }
+
+  isLegal = (from, to) => {
+    // console.log('not occupied:', this.isNotOccupied(to));
+    // console.log('orthogonal:', this.isOrthogonal(from, to));
+    return this.isNotOccupied(to) && this.isOrthogonal(from, to) 
+      && this.isNotBlocked(from, to);
   }
 
   isSelected = (row, col) => {
     if (this.state.selectedPiece){
       return this.state.selectedPiece.row === row 
-&& this.state.selectedPiece.col === col;
+        && this.state.selectedPiece.col === col;
     }
     return false;
   }
@@ -242,7 +280,7 @@ const Attacker = ({
 }) => {
   return (
     <div 
-        className={((isSelected(row, col) && 'bg-dark-gray ') || 'bg-black ') 
+        className={((isSelected(row, col) && 'bg-mid-gray ') || 'bg-black ') 
 + 'shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba b--white center mt1'}
         style={{
           width: squareSize * .8, 
