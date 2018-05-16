@@ -67,11 +67,15 @@ constructor(props) {
         selectedPiece: { row, col },
       });
     } else if (!this.state.attackerTurn && this.state.board[row][col]
-&& this.state.board[row][col] !== 'a') {
+        && this.state.board[row][col] !== 'a') {
       this.setState({ 
         selectedPiece: { row, col },
       });
     } 
+  }
+
+  getCaptures(square) {
+    const captures = [];
   }
 
   onMove = (row, col) => {
@@ -80,6 +84,7 @@ constructor(props) {
       const newBoard = this.state.board.map(row => [...row]);  // deep copy
       newBoard[from.row][from.col] = '';
       newBoard[row][col] = this.state.board[from.row][from.col];
+      const captures = this.getCaptures({ row, col });
       this.setState({
         board: newBoard,
         selectedPiece: null,
@@ -93,13 +98,16 @@ constructor(props) {
   isOrthogonal = (from, to) => from.row === to.row || from.col === to.col;
 
   isNotBlocked = (from, to) => {
+    // check along column
     if (from.col === to.col) {
+      // rows ascending: top to bottom
       if (from.row < to.row) {
         for (let i = from.row + 1; i < to.row; i++) {
           if (this.state.board[i][from.col]) {
             return false;
           }
         }
+        // rows descending: bottom to top
       } else {
         for (let i = from.row - 1; i > to.row; i--) {
           if (this.state.board[i][from.col]) {
@@ -108,13 +116,16 @@ constructor(props) {
           }
         }
       }
+      // check along row
     } else {
+      // columns ascending: left to right
       if (from.col < to.col) {
         for (let j = from.col + 1; j < to.col; j++) {
           if (this.state.board[from.row][j]) {
             return false;
           }
         }
+        // columns descending: right to left
       } else {
         for (let j = from.col - 1; j > to.col; j--) {
           if (this.state.board[from.row][j]) {
@@ -126,11 +137,19 @@ constructor(props) {
     return true;
   }
 
+  isRefuge = (square) => 
+    ((square.row === 0 && square.col === 0) 
+      || (square.row === 10 && square.col === 0)
+      || (square.row === 0 && square.col === 10) 
+      || (square.row === 10 && square.col ===10)
+      || (square.row === 5 && square.col ===5));
+
+  ifRefugeIsKing = (from, to) =>
+    this.isRefuge(to) ? this.state.board[from.row][from.col] === 'k' : true;
+
   isLegal = (from, to) => {
-    // console.log('not occupied:', this.isNotOccupied(to));
-    // console.log('orthogonal:', this.isOrthogonal(from, to));
     return this.isNotOccupied(to) && this.isOrthogonal(from, to) 
-      && this.isNotBlocked(from, to);
+      && this.isNotBlocked(from, to) && this.ifRefugeIsKing(from, to);
   }
 
   isSelected = (row, col) => {
