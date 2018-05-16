@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
-const SQUARE_SIZE = 50;
+const SQUARE_SIZE = 65;
 
 const initialSetup = [
   ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
