@@ -48,7 +48,7 @@ constructor(props) {
       || (row === 5 && col === 1)
       || (row === 5 && col === 9)
       ) {
-      return 'bg-near-black b--dark-gray';
+      return 'bg-black b--dark-gray';
     } else if ((row === 3 && col === 5)
       || (row === 4 && (col > 3 && col < 7))
       || (row === 5 && (col > 2 && col < 5))
@@ -58,7 +58,7 @@ constructor(props) {
       ) {
       return 'bg-blue';
     }
-    return 'bg-washed-white';
+    return 'bg-white';
   }
 
   hasPiece = (row, col) => {
@@ -506,7 +506,7 @@ const Cross = ({ squareSize }) => {
         style={{
           width: squareSize * .7, 
           height: squareSize * .1,
-          marginTop: '-70%',
+          marginTop: '-60%',
         }}
       ></div>
       <div
@@ -514,7 +514,7 @@ const Cross = ({ squareSize }) => {
         style={{
           width: squareSize * .35,
           height: squareSize * .35,
-          marginTop: '-230%',
+          marginTop: '-180%',
           marginLeft: '23%'
         }}
       ></div>
