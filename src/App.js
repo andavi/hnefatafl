@@ -305,8 +305,8 @@ constructor(props) {
     return (
       <div>
         <div className='header tc'>
-          <p className='f2 mb0'>Hnefatafl</p>
-          <p className='f4 mt0'>Viking Chess</p>
+          <p className='f1 mb0'>Hnefatafl</p>
+          <p className='f3 mb0 mt0'>Viking Chess</p>
         </div>
         <Board 
           paint={this.paint} 
@@ -318,10 +318,10 @@ constructor(props) {
           isSelected={this.isSelected}
         />
         { this.state.winner
-          ? <div className='tc f3'>
+          ? <div className='tc f2'>
             {this.state.winner + ' Wins!'}
           </div> 
-          :<div className='tc footer'>
+          :<div className='f3 tc footer'>
             {this.state.attackerTurn 
               ? "Black's Turn" 
               : "White's Turn"
