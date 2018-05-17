@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
-const SQUARE_SIZE = 65;
+const SQUARE_SIZE = 80;
 
 const initialSetup = [
   ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
@@ -492,32 +492,16 @@ const Defender = ({
 
 const Cross = ({ squareSize }) => {
   return (
-    <div>
-      <div 
-        className='bg-black'
-        style={{
-          width: squareSize * .1, 
-          height: squareSize * .7,
-          marginLeft: '44%'
-        }}
-      ></div>
-      <div 
-        className='bg-black mb5'
-        style={{
-          width: squareSize * .7, 
-          height: squareSize * .1,
-          marginTop: '-60%',
-        }}
-      ></div>
-      <div
-        className='br-100 ba bg-black'
-        style={{
-          width: squareSize * .35,
-          height: squareSize * .35,
-          marginTop: '-180%',
-          marginLeft: '23%'
-        }}
-      ></div>
+    <div className="cross pt3" 
+      style = {{
+        width: squareSize * .7,
+        height: squareSize * .7
+     }}>
+      <div className="bg-black br-100 center"
+        style = {{
+      width: squareSize * .3,
+      height: squareSize * .3
+    }}></div>
     </div>
   );
 }
