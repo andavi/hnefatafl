@@ -415,7 +415,7 @@ const Square = ({
   const color = paint(row, col);
   return (
     <div 
-        className={'fl ba ' + color}
+        className={'fl ba pt2 ' + color}
         style={{ width: edgeSize, height: squareSize }}
         onClick={() => onMove(row, col)}
       >
@@ -453,7 +453,7 @@ const Attacker = ({
   return (
     <div 
         className={((isSelected(row, col) && 'bg-mid-gray ') || 'bg-black ') 
-+ 'shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba b--white center mt1'}
++ 'shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba b--white center'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -475,7 +475,7 @@ const Defender = ({
   return (
     <div 
         className={((isSelected(row, col) && 'bg-light-blue ') || 'bg-white ') 
-+ 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center mt1'}
++ 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
