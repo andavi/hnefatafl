@@ -58,7 +58,7 @@ constructor(props) {
       ) {
       return 'bg-light-blue';
     }
-    return 'bg-white';
+    return 'bg-white b--dark-gray';
   }
 
   hasPiece = (row, col) => {
