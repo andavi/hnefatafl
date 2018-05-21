@@ -38,7 +38,7 @@ constructor(props) {
       || (row === 10 && col === 10)
       || (row === 5 && col === 5)
     ) {
-      return 'bg-red';
+      return 'bg-light-red';
     } else if ((row === 0 && (col > 2 && col < 8))
       || (row === 10 && (col > 2 && col < 8))
       || (col === 0 && (row > 2 && row < 8))
@@ -48,7 +48,7 @@ constructor(props) {
       || (row === 5 && col === 1)
       || (row === 5 && col === 9)
       ) {
-      return 'bg-black b--dark-gray';
+      return 'bg-dark-gray b--gray';
     } else if ((row === 3 && col === 5)
       || (row === 4 && (col > 3 && col < 7))
       || (row === 5 && (col > 2 && col < 5))
@@ -56,7 +56,7 @@ constructor(props) {
       || (row === 6 && (col > 3 && col < 7)) 
       || (row === 7 && col === 5) 
       ) {
-      return 'bg-blue';
+      return 'bg-light-blue';
     }
     return 'bg-white';
   }
