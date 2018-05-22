@@ -1,6 +1,6 @@
 .cross {
   width: 100px;
   height: 100px;
-  background: linear-gradient(to bottom, transparent 43%, #000 43%, #000 57%,  transparent 57%),
-    linear-gradient(to right, transparent 43%, #000 43%, #000 57%, transparent 57%);
+  background: linear-gradient(to bottom, transparent 40%, #000 40%, #000 55%,  transparent 55%),
+    linear-gradient(to right, transparent 40%, #000 40%, #000 55%, transparent 55%);
 }

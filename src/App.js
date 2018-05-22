@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
-const SQUARE_SIZE = 80;
+const SQUARE_SIZE = 50;
 
 const initialSetup = [
   ['', '', '', 'a', 'a', 'a', 'a', 'a', '', '', ''],
@@ -58,7 +58,7 @@ constructor(props) {
       ) {
       return 'bg-light-blue';
     }
-    return 'bg-white b--dark-gray';
+    return 'bg-washed-white b--dark-gray';
   }
 
   hasPiece = (row, col) => {
@@ -415,7 +415,7 @@ const Square = ({
   const color = paint(row, col);
   return (
     <div 
-        className={'fl ba pt2 ' + color}
+        className={'fl ba pt1 ' + color}
         style={{ width: edgeSize, height: squareSize }}
         onClick={() => onMove(row, col)}
       >
@@ -453,7 +453,7 @@ const Attacker = ({
   return (
     <div 
         className={((isSelected(row, col) && 'bg-mid-gray ') || 'bg-black ') 
-+ 'shadow-5 grow bw2 pointer tc f3 pt1 br-100 ba b--white center'}
++ 'shadow-5 grow bw2 pointer tc f3 br-100 ba b--white center'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -474,7 +474,7 @@ const Defender = ({
 }) => {
   return (
     <div 
-        className={((isSelected(row, col) && 'bg-light-blue ') || 'bg-white ') 
+        className={((isSelected(row, col) && 'bg-lightest-blue ') || 'bg-white ') 
 + 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center'}
         style={{
           width: squareSize * .8, 
@@ -492,15 +492,16 @@ const Defender = ({
 
 const Cross = ({ squareSize }) => {
   return (
-    <div className="cross pt3" 
+    <div className="cross pt2" 
       style = {{
         width: squareSize * .7,
-        height: squareSize * .7
+        height: squareSize * .7,
      }}>
       <div className="bg-black br-100 center"
         style = {{
-      width: squareSize * .3,
-      height: squareSize * .3
+      width: squareSize * .32,
+      height: squareSize * .32,
+      marginRight: '30%'
     }}></div>
     </div>
   );
