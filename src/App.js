@@ -453,7 +453,7 @@ const Attacker = ({
   return (
     <div 
         className={((isSelected(row, col) && 'bg-mid-gray ') || 'bg-black ') 
-+ 'shadow-5 grow bw2 pointer tc f3 br-100 ba b--white center'}
++ 'shadow-5 grow bw1 pointer tc f3 br-100 ba b--white center'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -475,7 +475,7 @@ const Defender = ({
   return (
     <div 
         className={((isSelected(row, col) && 'bg-lightest-blue ') || 'bg-white ') 
-+ 'shadow-5 grow bw2 pointer tc f3 b br-100 ba center'}
++ 'shadow-5 grow bw1 pointer tc f3 b br-100 ba center'}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -494,13 +494,14 @@ const Cross = ({ squareSize }) => {
   return (
     <div className="cross pt2" 
       style = {{
-        width: squareSize * .7,
-        height: squareSize * .7,
+        width: squareSize * .75,
+        height: squareSize * .75,
      }}>
       <div className="bg-black br-100 center"
         style = {{
-      width: squareSize * .32,
-      height: squareSize * .32,
+      width: squareSize * .3,
+      height: squareSize * .3,
+      marginTop: '8%',
       marginRight: '30%'
     }}></div>
     </div>
