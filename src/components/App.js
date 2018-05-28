@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Board from './Board';
+import Navigation from './Navigation';
+import Status from './Status';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;  // pixels
@@ -209,14 +211,14 @@ class App extends Component {
   isNotBlocked = (origin, dest) => {
     // check along column
     if (origin.col === dest.col) {
-      // rows ascending: destp dest botdestm
+      // rows ascending: top to bottom
       if (origin.row < dest.row) {
         for (let i = origin.row + 1; i < dest.row; i++) {
           if (this.state.board[i][origin.col]) {
             return false;
           }
         }
-        // rows descending: botdestm dest destp
+        // rows descending: bottom to top
       } else {
         for (let i = origin.row - 1; i > dest.row; i--) {
           if (this.state.board[i][origin.col]) {
@@ -227,14 +229,14 @@ class App extends Component {
       }
       // check along row
     } else {
-      // columns ascending: left dest right
+      // columns ascending: left to right
       if (origin.col < dest.col) {
         for (let j = origin.col + 1; j < dest.col; j++) {
           if (this.state.board[origin.row][j]) {
             return false;
           }
         }
-        // columns descending: right dest left
+        // columns descending: right to left
       } else {
         for (let j = origin.col - 1; j > dest.col; j--) {
           if (this.state.board[origin.row][j]) {
@@ -275,11 +277,12 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <div className='header tc'>
-          <p className='f1 mb0'>Hnefatafl</p>
-          <p className='f3 mb0 mt0'>Viking Chess</p>
-        </div>
+      <div className='w-70 center'>
+        <Navigation />
+        <Status 
+          winner={this.state.winner} 
+          attackerTurn={this.state.attackerTurn}
+        />
         <Board 
           hasPiece={this.hasPiece}
           numSquares={NUM_SQUARES} 
@@ -287,19 +290,7 @@ class App extends Component {
           onSelect={this.onSelect}
           onMove={this.onMove}
           isSelected={this.isSelected}
-        />
-        { this.state.winner
-          ? <div className='tc f2'>
-            {this.state.winner + ' Wins!'}
-          </div> 
-          :<div className='f3 tc footer'>
-            {this.state.attackerTurn 
-              ? "Black's Turn" 
-              : "White's Turn"
-            }
-          </div>
-        }
-        
+        />  
       </div>
     );
   }
