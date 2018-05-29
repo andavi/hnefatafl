@@ -5,7 +5,7 @@ const Navigation = ({ navigate }) =>
 		<nav className="db dt-l w-100 border-box pa3 ph5-l">
 		  <a 
 		  	className="link dim dark-gray f5 f4-l dib mr3 mr4-ll" 
-		  	href="#" 
+
 		  	title="Home"
 		  	onClick={() => navigate(null)}
 		  >

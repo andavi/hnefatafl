@@ -6,6 +6,7 @@ import Navigation from './Navigation';
 import Status from './Status';
 import About from './About';
 import Rules from './Rules';
+import Footer from './Footer';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;  // pixels
@@ -308,6 +309,7 @@ class App extends Component {
               : <Rules />
             )
       }
+        <Footer />
       </div>
     );
   }

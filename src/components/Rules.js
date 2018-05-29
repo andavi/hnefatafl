@@ -1,12 +1,5 @@
 import React from 'react';
 
-const text = 
-	`Hnefatafl is an ancient board game played by the Vikings. Remnants of boards have been found in all parts of Scandanavia. As Norse raiders and settlers spread to new territories, the game followed and was introduced to other cultures.
-
-	Eventually the game died out, most likely being replaced due to the introduction of chess. The game as it exists today is a reconstruction based on archaelogical records, historical writings, and some collaborative creativity.
-	
-	This web app allows two players sharing a screen to play a game of hnefatafl based off of the Fetlar rules. This variant was created by the Fetlar Hnefatafl Panel in 2008 in an attempt to standardize the rules for tournaments around the world.`;
-
 const listItemStyle = 'mv3'
 
 const About = () => 
