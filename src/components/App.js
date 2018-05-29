@@ -4,6 +4,7 @@ import './App.css';
 import Board from './Board';
 import Navigation from './Navigation';
 import Status from './Status';
+import About from './About';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;  // pixels
@@ -27,12 +28,17 @@ class App extends Component {
     super(props);
 
     this.state = {
+      route: null,
       attackerTurn: true,
       selectedPiece: null,
       board: INITIAL_SETUP,
       kingPosition: {row: 5, col: 5},
       winner: null
     }
+  }
+
+  navigate = (route) => {
+    this.setState({ route });
   }
 
   hasPiece = (row, col) => {
@@ -278,19 +284,26 @@ class App extends Component {
   render() {
     return (
       <div className='w-70 center'>
-        <Navigation />
-        <Status 
-          winner={this.state.winner} 
-          attackerTurn={this.state.attackerTurn}
+        <Navigation 
+          navigate={this.navigate}
         />
-        <Board 
-          hasPiece={this.hasPiece}
-          numSquares={NUM_SQUARES} 
-          squareSize={SQUARE_SIZE}
-          onSelect={this.onSelect}
-          onMove={this.onMove}
-          isSelected={this.isSelected}
-        />  
+        { !this.state.route
+          ?  <div>
+              <Status 
+                winner={this.state.winner} 
+                attackerTurn={this.state.attackerTurn}
+              />
+              <Board 
+                hasPiece={this.hasPiece}
+                numSquares={NUM_SQUARES} 
+                squareSize={SQUARE_SIZE}
+                onSelect={this.onSelect}
+                onMove={this.onMove}
+                isSelected={this.isSelected}
+              />  
+            </div>
+          : <About />
+      }
       </div>
     );
   }
