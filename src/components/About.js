@@ -1,11 +1,13 @@
 import React from 'react';
 
 const text = 
-	`Hnefatafl is an ancient board game played by the Vikings. Remnants of boards have been found in all parts of Scandinavia. As Norse raiders and settlers spread to new territories, the game followed and was introduced to other cultures.
+	`Hnefatafl is an ancient board game played by the Vikings. The game began its life in Scandinavia but soon spread to the British Isles, Iceland, France, Germany, Ukraine, and Greenland. As Norse raiders and settlers spread to new territories, the game followed and was introduced to other cultures.
 
-	Eventually the game died out, most likely being replaced due to the introduction of chess around the twelfth century. The game as it exists today is a reconstruction based on archaeological records, historical writings, and some collaborative creativity.
+	Eventually the game died out, most likely being replaced by chess due to its introduction in these areas. The game as it exists today is a reconstruction based on archaeological records, historical writings, and some collaborative creativity.
 	
 	This web app allows two players sharing a screen to play a game of hnefatafl based on the Fetlar rules. This variant was created by the Fetlar Hnefatafl Panel in 2008 in an attempt to standardize the rules for tournaments around the world.`;
+
+const linkClassNames = 'black dim';
 
 const About = () => 
 	<div className='black-80 avenir'>
@@ -20,7 +22,7 @@ const About = () =>
 				})}
 		  </p>
 		  <p>
-		  	To learn more about the history of the game and different variants please see Damian Walker's very informative <a href='http://tafl.cyningstan.com/'>website</a>. For information on Fetlar's Hnefatafl World Championship please see <a href='http://www.fetlar.org/hnefatafl-world-championship'>here</a>.
+		  	To learn more about the history of the game and different variants please see Damian Walker's very informative <a className={linkClassNames} href='http://tafl.cyningstan.com/'>website</a>. For information on Fetlar's Hnefatafl World Championship please see <a className={linkClassNames} href='http://www.fetlar.org/hnefatafl-world-championship'>here</a>.
 		  </p>
 	  </div>
   </div>

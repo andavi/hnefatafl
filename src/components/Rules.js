@@ -16,10 +16,10 @@ const About = () =>
 				<li className={listItemStyle}>The four corner squares and the center square are refuge squares. No piece except the king can land on these squares.</li>
 				<li className={listItemStyle}>With the exception of the king, enemy pieces are captured by surrounding them on two sides with your pieces such that the three pieces form a vertical or horizontal line.</li>
 				<li className={listItemStyle}>It is possible to capture multiple pieces at a time this way.</li>
-				<li className={listItemStyle}>Refuge squares, if they are empty, can aid in capture.</li>
+				<li className={listItemStyle}>Refuge squares, if they are empty, can aid in capture as if they are one of your own pieces.</li>
 				<li className={listItemStyle}>The king can <em>only</em> be captured from being surrounded by attackers on four sides .</li>
-				<li className={listItemStyle}>For the defenders to win, the kind must get to one of the four corner refuge squares.</li>
-				<li className={listItemStyle}>For the attacks to win, they must capture the king before he escapes.</li>
+				<li className={listItemStyle}>For the defenders to win, the king must get to one of the four corner refuge squares.</li>
+				<li className={listItemStyle}>For the attackers to win, they must capture the king before he escapes.</li>
 			</ul>
 	  </div>
   </div>

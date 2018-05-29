@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Status = ({ winner, attackerTurn }) => 
-	<div className='pb2 pt2 bb bt dark-gray f5 f4-l center tc w-30'>
+	<div className='avenir pb2 pt2 bb bt dark-gray f5 f4-l center tc w-30'>
     { winner
       ? <div className='f2'>
         {winner + ' Wins!'}
