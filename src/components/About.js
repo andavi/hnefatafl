@@ -1,7 +1,7 @@
 import React from 'react';
 
 const text = 
-	`Hnefatafl is an ancient board game played by the Vikings. The game began its life in Scandinavia but soon spread to the British Isles, Iceland, France, Germany, Ukraine, and Greenland. As Norse raiders and settlers spread to new territories, the game followed and was introduced to other cultures.
+	`Hnefatafl, pronounced "neffa-taffle", is an ancient board game played by the Vikings. The game began its life in Scandinavia but soon spread to the British Isles, Iceland, France, Germany, Ukraine, and Greenland. As Norse raiders and settlers spread to new territories, the game followed and was introduced to other cultures.
 
 	Eventually the game died out, most likely being replaced by chess due to its introduction in these areas. The game as it exists today is a reconstruction based on archaeological records, historical writings, and some collaborative creativity.
 	
