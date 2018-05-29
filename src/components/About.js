@@ -22,7 +22,7 @@ const About = () =>
 				})}
 		  </p>
 		  <p>
-		  	To learn more about the history of the game and different variants please see Damian Walker's very informative <a className={linkClassNames} href='http://tafl.cyningstan.com/'>website</a>. For information on Fetlar's Hnefatafl World Championship please see <a className={linkClassNames} href='http://www.fetlar.org/hnefatafl-world-championship'>here</a>.
+		  	To learn more about the history of hnefatafl and different variants please see Damian Walker's very informative <a className={linkClassNames} href='http://tafl.cyningstan.com/'>website</a>. For information on Fetlar's Hnefatafl World Championship please see <a className={linkClassNames} href='http://www.fetlar.org/hnefatafl-world-championship'>here</a>.
 		  </p>
 	  </div>
   </div>
