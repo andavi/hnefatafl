@@ -5,6 +5,7 @@ import Board from './Board';
 import Navigation from './Navigation';
 import Status from './Status';
 import About from './About';
+import Rules from './Rules';
 
 const NUM_SQUARES = 11;  // NUM_SQUARES x NUM_SQUARES
 const SQUARE_SIZE = 50;  // pixels
@@ -302,7 +303,10 @@ class App extends Component {
                 isSelected={this.isSelected}
               />  
             </div>
-          : <About />
+          : ( this.state.route === 'about'
+              ? <About />
+              : <Rules />
+            )
       }
       </div>
     );
