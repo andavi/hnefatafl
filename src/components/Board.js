@@ -38,7 +38,7 @@ const Board = ({
     }
     return 'bg-washed-white b--dark-gray';
   }
-  
+
   const rows = [];
 
   for (let i=0; i < numSquares; i++) {
@@ -139,6 +139,8 @@ const Square = ({
   );
 }
 
+const pieceClassNames = 'shadow-5 grow bw1 pointer tc f3 br-100 ba center';
+
 const Attacker = ({ 
   squareSize, 
   row, 
@@ -148,8 +150,8 @@ const Attacker = ({
 }) => {
   return (
     <div 
-        className={((isSelected(row, col) && 'bg-mid-gray ') || 'bg-black ') 
-+ 'shadow-5 grow bw1 pointer tc f3 br-100 ba b--white center'}
+        className={((isSelected(row, col) && 'bg-mid-gray ') || 'b--white bg-black ') 
++ pieceClassNames}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,
@@ -170,8 +172,8 @@ const Defender = ({
 }) => {
   return (
     <div 
-        className={((isSelected(row, col) && 'bg-lightest-blue ') || 'bg-white ') 
-+ 'shadow-5 grow bw1 pointer tc f3 b br-100 ba center'}
+        className={((isSelected(row, col) && 'bg-lightest-blue ') || 'b--black bg-white ') 
++ pieceClassNames}
         style={{
           width: squareSize * .8, 
           height: squareSize * .8,

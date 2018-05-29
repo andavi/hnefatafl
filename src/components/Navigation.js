@@ -14,13 +14,11 @@ const Navigation = ({ navigate }) =>
 		  <div className="db dtc-l v-mid w-100 w-75-l tc tr-l">
 		    <a 
 		    	className="link dim dark-gray f6 f5-l dib mr3 mr4-l" 
-		    	href="#" 
 		    	title="About"
 		    	onClick={() => navigate('about')}
 		    >About</a>
 		    <a 
 		    	className="link dim dark-gray f6 f5-l dib mr3 mr4-l" 
-		    	href="#" 
 		    	title="Rules"
 		    	onClick={() => navigate('rules')}
 		    >Rules</a>
