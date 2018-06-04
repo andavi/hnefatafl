@@ -5,7 +5,7 @@ const text =
 
 	Eventually the game died out, most likely being replaced by chess due to its introduction in these areas. The game as it exists today is a reconstruction based on archaeological records, historical writings, and some collaborative creativity.
 	
-	This web app allows two players sharing a screen to play a game of hnefatafl based on the Fetlar rules. This variant was created by the Fetlar Hnefatafl Panel in 2008 in an attempt to standardize the rules for tournaments around the world.`;
+	This web app allows two players sharing a screen to play a game of hnefatafl based on the Fetlar variant. These rules were created by the Fetlar Hnefatafl Panel in 2008 in an attempt to standardize the game for tournaments around the world.`;
 
 const linkClassNames = 'black dim';
 
