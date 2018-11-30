@@ -8,7 +8,7 @@ This is a web app that allows two people sharing a screen to play this board gam
 
 #### Things I Learned
 
-* With an arrow function and destructuring, a deep copy of a two-dimensional array can now be done in one line:
+* With an arrow function and spreading, a deep copy of a two-dimensional array can now be done in one line:
 
         const newBoard = this.state.board.map(row => [ ...row ]);
 
